@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/Icons">
+        <file alias="MainIcon">Icons/MainIcon.png</file>
+      
+        <file alias="HideFiles">Icons/hide.svg</file>
+        <file alias="ExpandTree">Icons/tree-structure.svg</file>
+        <file alias="FileList">Icons/checklist.svg</file>
+        <file alias="Files">Icons/document.svg</file>
+        <file alias="Folder">Icons/folder.svg</file>
+        <file alias="Execute">Icons/play.svg</file>
+        <file alias="Settings">Icons/settings.svg</file>
+    </qresource>
+</RCC>

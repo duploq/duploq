@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainGUI</class>
+ <widget class="QMainWindow" name="MainGUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Clone Scout</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpenList"/>
+    <addaction name="actionCheckFiles"/>
+    <addaction name="actionCheckDir"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuRun">
+    <property name="title">
+     <string>Analyze</string>
+    </property>
+    <addaction name="actionFindClones"/>
+    <addaction name="separator"/>
+    <addaction name="actionSettings"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuRun"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit Application</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionFindClones">
+   <property name="icon">
+    <iconset resource="app.qrc">
+     <normaloff>:/Icons/Execute</normaloff>:/Icons/Execute</iconset>
+   </property>
+   <property name="text">
+    <string>Find clones</string>
+   </property>
+  </action>
+  <action name="actionOpenList">
+   <property name="icon">
+    <iconset resource="app.qrc">
+     <normaloff>:/Icons/FileList</normaloff>:/Icons/FileList</iconset>
+   </property>
+   <property name="text">
+    <string>Check files from a list...</string>
+   </property>
+  </action>
+  <action name="actionCheckFiles">
+   <property name="icon">
+    <iconset resource="app.qrc">
+     <normaloff>:/Icons/Files</normaloff>:/Icons/Files</iconset>
+   </property>
+   <property name="text">
+    <string>Check file(s)...</string>
+   </property>
+  </action>
+  <action name="actionCheckDir">
+   <property name="icon">
+    <iconset resource="app.qrc">
+     <normaloff>:/Icons/Folder</normaloff>:/Icons/Folder</iconset>
+   </property>
+   <property name="text">
+    <string>Check directory...</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="app.qrc">
+     <normaloff>:/Icons/Settings</normaloff>:/Icons/Settings</iconset>
+   </property>
+   <property name="text">
+    <string>Settings...</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About...</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="app.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainGUI</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
