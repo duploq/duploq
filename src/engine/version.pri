@@ -1,7 +1,14 @@
-DUPLO_VERSION=0.4.8
+DUPLO_VERSION=0.5.0
 
 # console & studio build
-DEFINES += DUPLO_VERSION=\"$${DUPLO_VERSION}\"
+msvc*{
+    DEFINES += DUPLO_VERSION=\"$${DUPLO_VERSION}\"
+}
+
+# gcc
+gcc{
+    DEFINES += DUPLO_VERSION=\"\\\"$${DUPLO_VERSION}\"\\\"
+}
 
 # creator build
 #DEFINES += DUPLO_VERSION=\"\\\"$${DUPLO_VERSION}\"\\\"

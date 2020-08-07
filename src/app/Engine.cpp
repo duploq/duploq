@@ -24,7 +24,11 @@ bool Engine::start(const QString &fileListPath, const QString &fileResultPath)
     argz << "-mc" << QString::number(m_engineOptions.minLineLength);
     argz << fileListPath;
     argz << fileResultPath;
+#ifdef Q_OS_WINDOWS
     m_engineProcess.start("engine.exe", argz);
+#else
+    m_engineProcess.start("./engine", argz);
+#endif
     return true;
 }
 

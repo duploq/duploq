@@ -105,7 +105,7 @@ MainGUI::~MainGUI()
 void MainGUI::storeConfig()
 {
     //QSettings set("duploq.ini", QSettings::IniFormat);
-    QSettings set(QSettings::UserScope);
+    QSettings set(QSettings::UserScope, "duploc", "duploc");
 
     set.beginGroup("GUI");
     set.setValue("WindowGeometry", saveGeometry());
@@ -123,7 +123,7 @@ void MainGUI::storeConfig()
 void MainGUI::restoreConfig()
 {
 	//QSettings set("duploq.ini", QSettings::IniFormat);
-	QSettings set(QSettings::UserScope);
+    QSettings set(QSettings::UserScope, "duploc", "duploc");
 
     //qDebug() << set.fileName();
 

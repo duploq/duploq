@@ -159,7 +159,9 @@ namespace {
             throw std::runtime_error(stream.str().c_str());
         }
 
-        return std::tuple(std::move(sourceFiles), matrix, files, locsTotal);
+        return std::tuple<std::vector<SourceFile>, std::vector<MatchType>, unsigned, unsigned>
+                (std::move(sourceFiles), matrix, files, locsTotal);
+        //return std::tuple(std::move(sourceFiles), matrix, files, locsTotal);
     }
 
     unsigned ReportSeq(
