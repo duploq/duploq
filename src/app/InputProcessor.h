@@ -9,6 +9,7 @@ struct InputOptions
 {
     bool dirsRecursive = true;
     QString fileFilters;
+    QString ignoreFilters;
 };
 
 
@@ -23,7 +24,8 @@ public:
     void storeConfig(QSettings &set);
     void restoreConfig(QSettings &set);
 
-    QStringList createFilelist(const QString &dirPath) const;
+    QStringList createFileList(const QString &dirPath) const;
+    QStringList readFileList(const QString &fileListPath) const;
 
 private:
     InputOptions m_inputOptions;

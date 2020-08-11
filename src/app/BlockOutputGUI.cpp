@@ -6,27 +6,27 @@
 
 
 // custom sort
-class TreeWidgetItem : public QTreeWidgetItem 
+class TreeWidgetItem : public QTreeWidgetItem
 {
 public:
-	TreeWidgetItem(QTreeWidget* parent = nullptr) :QTreeWidgetItem(parent) {}
-	TreeWidgetItem(QTreeWidgetItem* parent) :QTreeWidgetItem(parent) {}
+    TreeWidgetItem(QTreeWidget* parent = nullptr) :QTreeWidgetItem(parent) {}
+    TreeWidgetItem(QTreeWidgetItem* parent) :QTreeWidgetItem(parent) {}
 
 private:
-	bool operator<(const QTreeWidgetItem &other) const 
-	{
-		int column = treeWidget()->sortColumn();
-		if (column == 0)
-		{
-			return text(column).toLower() < other.text(column).toLower();
-		}
-		else
-		{
-			int t1 = data(column, Qt::UserRole).toInt();
-			int t2 = other.data(column, Qt::UserRole).toInt();
-			return t1 < t2;
-		}
-	}
+    bool operator<(const QTreeWidgetItem &other) const
+    {
+        int column = treeWidget()->sortColumn();
+        if (column == 0)
+        {
+            return text(column).toLower() < other.text(column).toLower();
+        }
+        else
+        {
+            int t1 = data(column, Qt::UserRole).toInt();
+            int t2 = other.data(column, Qt::UserRole).toInt();
+            return t1 < t2;
+        }
+    }
 };
 
 
@@ -37,11 +37,11 @@ BlockOutputGUI::BlockOutputGUI(QWidget *parent) :
 {
     ui->setupUi(this);
 
-	ui->Output->hide();
+    ui->Output->hide();
 
     ui->BlockTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     //ui->BlockTree->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-	ui->BlockTree->header()->setStretchLastSection(false);
+    ui->BlockTree->header()->setStretchLastSection(false);
     ui->BlockTree->header()->setSectionsMovable(false);
 }
 
@@ -95,7 +95,7 @@ void BlockOutputGUI::setResults(const ResultInfo &results)
         QString blockText = tr("[#%4] Length %1, Repeats %3, Files %2").arg(lines).arg(files).arg(blocks).arg(i+1);
         blockItem->setText(0, blockText);
         blockItem->setText(1, QString::number(blocks*lines));
-		blockItem->setData(1, Qt::UserRole, blocks*lines);
+        blockItem->setData(1, Qt::UserRole, blocks*lines);
     }
 
     ui->BlockTree->header()->setSortIndicator(1, Qt::DescendingOrder);
@@ -105,7 +105,7 @@ void BlockOutputGUI::setResults(const ResultInfo &results)
     ui->BlockTree->setUpdatesEnabled(true);
 
 #if 0
-	ui->Output->show();
+    ui->Output->show();
     ui->Output->setUpdatesEnabled(false);
     ui->Output->clear();
 
@@ -141,18 +141,30 @@ void BlockOutputGUI::setResults(const ResultInfo &results)
 }
 
 
+void BlockOutputGUI::storeConfig(QSettings &set)
+{
+
+}
+
+
+void BlockOutputGUI::restoreConfig(QSettings &set)
+{
+
+}
+
+
 void BlockOutputGUI::showBlock(int index)
 {
-	for (int i = 0; i < ui->BlockTree->topLevelItemCount(); ++i)
-	{
-		auto item = ui->BlockTree->topLevelItem(i);
-		int itemIndex = item->data(0, Qt::UserRole).toInt();
-		if (itemIndex == index)
-		{
-			ui->BlockTree->setCurrentItem(item);
-			return;
-		}
-	}
+    for (int i = 0; i < ui->BlockTree->topLevelItemCount(); ++i)
+    {
+        auto item = ui->BlockTree->topLevelItem(i);
+        int itemIndex = item->data(0, Qt::UserRole).toInt();
+        if (itemIndex == index)
+        {
+            ui->BlockTree->setCurrentItem(item);
+            return;
+        }
+    }
 }
 
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>385</width>
-    <height>253</height>
+    <height>303</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,23 +20,6 @@
       <string>Input</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QCheckBox" name="RecursiveDirs">
-        <property name="text">
-         <string>Recursive directories search</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="Line" name="line_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
       <item>
        <widget class="QLabel" name="label_5">
         <property name="text">
@@ -53,6 +36,36 @@
          <string>Enter filters here or left empty to search all files</string>
         </property>
         <property name="clearButtonEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Ignore files matching filters (space-separated list):</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="IgnoreFilters">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>Enter ignored filters here (if any)</string>
+        </property>
+        <property name="clearButtonEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="RecursiveDirs">
+        <property name="text">
+         <string>Recursive search in subdirectories</string>
+        </property>
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>

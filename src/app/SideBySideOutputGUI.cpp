@@ -232,7 +232,7 @@ void SideBySideOutputGUI::setupBlock(QPlainTextEdit *view, int line, int size)
         }
 
         //selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, size);	// select lines
-        selection.format.setBackground(Qt::yellow);
+        selection.format.setBackground(QColor("#e6f3ff"));
         selection.cursor.mergeCharFormat(selection.format);
         view->setExtraSelections({ selection });
     }

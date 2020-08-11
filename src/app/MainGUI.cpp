@@ -18,6 +18,8 @@
 #include <QSettings>
 #include <QDebug>
 #include <QMessageBox> 
+#include <QApplication>
+#include <QDesktopWidget>
 
 
 MainGUI::MainGUI(QWidget *parent)
@@ -36,8 +38,15 @@ MainGUI::MainGUI(QWidget *parent)
 
     ui->actionFindClones->setEnabled(false);
 
+    // process dialog
+    m_progressDlg = new QProgressDialog(this);
+    m_progressDlg->setMinimumDuration(0);
+    m_progressDlg->setWindowModality(Qt::WindowModal);
+    m_progressDlg->reset();
+
 	// toolbar
 	QToolBar *mainToolBar = addToolBar(tr("Main Toolbar"));
+    mainToolBar->setObjectName("MainToolbar");
 	mainToolBar->addAction(ui->actionCheckFiles);
 	mainToolBar->addAction(ui->actionCheckDir);
 	mainToolBar->addSeparator();
@@ -93,8 +102,6 @@ MainGUI::MainGUI(QWidget *parent)
 
 MainGUI::~MainGUI()
 {
-    storeConfig();
-
     delete m_resultProcessor;
     delete m_inputProcessor;
 
@@ -108,12 +115,10 @@ void MainGUI::storeConfig()
     QSettings set(QSettings::UserScope, "duploc", "duploc");
 
     set.beginGroup("GUI");
+    set.setValue("WindowMaximized", isMaximized());
     set.setValue("WindowGeometry", saveGeometry());
     set.setValue("WindowState", saveState());
     set.endGroup();
-
-    m_fileListUI->storeConfig(set);
-	m_sideOutputUI->storeConfig(set);
 
     m_engine->storeConfig(set);
     m_inputProcessor->storeConfig(set);
@@ -127,16 +132,30 @@ void MainGUI::restoreConfig()
 
     //qDebug() << set.fileName();
 
+    m_fileListUI->restoreConfig(set);
+    m_sideOutputUI->restoreConfig(set);
+    m_blockOutputUI->restoreConfig(set);
+
     set.beginGroup("GUI");
     restoreGeometry(set.value("WindowGeometry").toByteArray());
+    if (set.value("WindowMaximized").toBool())
+    {
+        showMaximized();
+        setGeometry( QApplication::desktop()->availableGeometry(this) );
+    }
     restoreState(set.value("WindowState").toByteArray());
     set.endGroup();
 
-    m_fileListUI->restoreConfig(set);
-	m_sideOutputUI->restoreConfig(set);
-
     m_engine->restoreConfig(set);
     m_inputProcessor->restoreConfig(set);
+}
+
+
+void MainGUI::closeEvent(QCloseEvent *event)
+{
+    storeConfig();
+
+    QMainWindow::closeEvent(event);
 }
 
 
@@ -151,6 +170,8 @@ void MainGUI::on_actionOpenList_triggered()
 
     m_fileListPath = filePath;
     m_fileResultPath = "output.xml";
+
+    m_fileList = m_inputProcessor->readFileList(m_fileListPath);
 
     ui->actionFindClones->setEnabled(true);
     ui->actionFindClones->trigger();
@@ -168,6 +189,8 @@ void MainGUI::on_actionCheckFiles_triggered()
 
     createTempFileList(filePathList);
     createTempResultFile();
+
+    m_fileList = m_inputProcessor->readFileList(m_fileListPath);
 
     ui->actionFindClones->setEnabled(true);
     ui->actionFindClones->trigger();
@@ -190,9 +213,9 @@ void MainGUI::on_actionCheckDir_triggered()
     setWindowFilePath(dirPath);
     updateHeader();
 
-    QStringList filePathList = m_inputProcessor->createFilelist(dirPath);
+    m_fileList = m_inputProcessor->createFileList(dirPath);
 
-    createTempFileList(filePathList);
+    createTempFileList(m_fileList);
     createTempResultFile();
 
     ui->actionFindClones->setEnabled(true);
@@ -268,12 +291,16 @@ void MainGUI::onCompleted()
         m_fileListUI->setFileListResults(m_results);
         m_blockOutputUI->setResults(m_results);
     }
+
+    m_progressDlg->reset();
 }
 
 
 void MainGUI::onFailed()
 {
     m_consoleUI->append(tr("*** Analyze failed ***"));
+
+    m_progressDlg->reset();
 }
 
 
@@ -311,7 +338,12 @@ void MainGUI::createTempResultFile()
 
 void MainGUI::runProcess()
 {
-    m_engine->start(m_fileListPath, m_fileResultPath);
+    if (m_engine->start(m_fileListPath, m_fileResultPath))
+    {
+        m_progressDlg->setLabelText(tr("Processing %1 input files, please wait...").arg(m_fileList.size()));
+        m_progressDlg->setRange(0, 0);
+        m_progressDlg->show();
+    }
 }
 
 

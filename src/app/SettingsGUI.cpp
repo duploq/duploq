@@ -21,6 +21,7 @@ bool SettingsGUI::exec(InputProcessor &input, Engine &engine)
     InputOptions inputOpts = input.getOptions();
     ui->RecursiveDirs->setChecked(inputOpts.dirsRecursive);
     ui->FileFilters->setText(inputOpts.fileFilters);
+    ui->IgnoreFilters->setText(inputOpts.ignoreFilters);
 
     EngineOptions options = engine.getOptions();
     ui->MinSymbolsInLine->setValue(options.minLineLength);
@@ -34,6 +35,7 @@ bool SettingsGUI::exec(InputProcessor &input, Engine &engine)
 
         inputOpts.dirsRecursive = ui->RecursiveDirs->isChecked();
         inputOpts.fileFilters = ui->FileFilters->text();
+        inputOpts.ignoreFilters = ui->IgnoreFilters->text();
         input.setOptions(inputOpts);
 
         return true;

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QString>
 #include <QTabWidget>
+#include <QProgressDialog>
 
 #include "ResultProcessor.h"
 
@@ -35,6 +36,9 @@ public:
     void storeConfig();
     void restoreConfig();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private Q_SLOTS:
     void on_actionOpenList_triggered();
     void on_actionCheckFiles_triggered();
@@ -43,7 +47,7 @@ private Q_SLOTS:
     void on_actionFindClones_triggered();
     void on_actionSettings_triggered();
 
-	void on_actionAbout_triggered();
+    void on_actionAbout_triggered();
 
     void onProcessOutput(const QString &output);
     void onErrorOutput(const QString &output);
@@ -70,13 +74,16 @@ private:
     BlockOutputGUI *m_blockOutputUI;
 
     Engine *m_engine = nullptr;
-	InputProcessor *m_inputProcessor = nullptr;
+    InputProcessor *m_inputProcessor = nullptr;
     ResultProcessor *m_resultProcessor = nullptr;
     QString m_fileListPath;
     QString m_fileResultPath;
     ResultInfo m_results;
 
     QString m_headerInfo;
+
+    QStringList m_fileList;
+    QProgressDialog *m_progressDlg = nullptr;
 };
 
 #endif // MAINGUI_H

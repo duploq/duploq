@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainGUI w;
-    w.restoreConfig();
     w.show();
+    w.restoreConfig();
     return a.exec();
 }
