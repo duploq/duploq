@@ -18,6 +18,8 @@ class Engine;
 //class ResultProcessor;
 class InputProcessor;
 
+class ProjectManager;
+
 class ConsoleGUI;
 class FileListGUI;
 class RawOutputGUI;
@@ -44,6 +46,8 @@ private Q_SLOTS:
     void on_actionCheckFiles_triggered();
     void on_actionCheckDir_triggered();
 
+	void on_actionNewProject_triggered();
+
     void on_actionFindClones_triggered();
     void on_actionSettings_triggered();
 
@@ -62,6 +66,7 @@ private:
     void runProcess();
 
     void updateHeader();
+	void updateActions();
 
 private:
     Ui::MainGUI *ui;
@@ -84,6 +89,8 @@ private:
 
     QStringList m_fileList;
     QProgressDialog *m_progressDlg = nullptr;
+
+	ProjectManager *m_projectManager = nullptr;
 };
 
 #endif // MAINGUI_H

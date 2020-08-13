@@ -3,6 +3,7 @@
 
 #include "Engine.h"
 #include "InputProcessor.h"
+#include "ProjectManager.h"
 #include "ConsoleGUI.h"
 #include "FileListGUI.h"
 #include "SettingsGUI.h"
@@ -33,9 +34,6 @@ MainGUI::MainGUI(QWidget *parent)
 	QCoreApplication::setOrganizationName("qvge");
 	QCoreApplication::setApplicationName("duploq");
 
-    setWindowFilePath(tr("<Nothing loaded>"));
-    updateHeader();
-
     ui->actionFindClones->setEnabled(false);
 
     // process dialog
@@ -46,9 +44,14 @@ MainGUI::MainGUI(QWidget *parent)
 
 	// toolbar
 	QToolBar *mainToolBar = addToolBar(tr("Main Toolbar"));
+	mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     mainToolBar->setObjectName("MainToolbar");
 	mainToolBar->addAction(ui->actionCheckFiles);
 	mainToolBar->addAction(ui->actionCheckDir);
+	mainToolBar->addSeparator();
+	mainToolBar->addAction(ui->actionNewProject);
+	mainToolBar->addAction(ui->actionOpenProject);
+	mainToolBar->addAction(ui->actionSaveProject);
 	mainToolBar->addSeparator();
 	mainToolBar->addAction(ui->actionSettings);
 	mainToolBar->addAction(ui->actionFindClones);
@@ -97,6 +100,14 @@ MainGUI::MainGUI(QWidget *parent)
     // processors
     m_inputProcessor = new InputProcessor;
     m_resultProcessor = new ResultProcessor;
+
+	// project manager
+	m_projectManager = new ProjectManager(*m_inputProcessor, *m_engine);
+
+	// update GUI
+	setWindowFilePath(tr("<Nothing loaded>"));
+	updateHeader();
+	updateActions();
 }
 
 
@@ -104,6 +115,7 @@ MainGUI::~MainGUI()
 {
     delete m_resultProcessor;
     delete m_inputProcessor;
+	delete m_projectManager;
 
     delete ui;
 }
@@ -223,12 +235,48 @@ void MainGUI::on_actionCheckDir_triggered()
 }
 
 
+void MainGUI::on_actionNewProject_triggered()
+{
+	QString filePath = QFileDialog::getSaveFileName(nullptr, tr("New project file..."), "", "duploq project file (*.dqp)");
+	if (filePath.isEmpty())
+		return;
+
+	if (!m_projectManager->setCurrentProject(filePath))
+		return;
+
+	setWindowFilePath(filePath);
+	updateHeader();
+	updateActions();
+
+	m_consoleUI->clear();
+	m_rawOutputUI->clear();
+	m_sideOutputUI->clear();
+	m_blockOutputUI->clear();
+
+	QFileInfo projectFileInfo(filePath);
+	QString dirPath = projectFileInfo.absolutePath();
+	m_fileList = m_inputProcessor->createFileList(dirPath);
+	m_fileListUI->setFileList(m_fileList);
+
+	ui->actionFindClones->setEnabled(true);
+}
+
+
 void MainGUI::on_actionFindClones_triggered()
 {
     m_consoleUI->clear();
     m_rawOutputUI->clear();
     m_sideOutputUI->clear();
     m_blockOutputUI->clear();
+
+	if (m_projectManager->hasProject())
+	{
+		QFileInfo projectFileInfo(m_projectManager->getCurrentProject());
+		QString dirPath = projectFileInfo.absolutePath();
+		m_fileList = m_inputProcessor->createFileList(dirPath);
+		createTempFileList(m_fileList);
+		createTempResultFile();
+	}
 
     m_fileListUI->setFileListFrom(m_fileListPath);
 
@@ -350,5 +398,16 @@ void MainGUI::runProcess()
 void MainGUI::updateHeader()
 {
     setWindowTitle(windowFilePath() + " - " + qApp->applicationDisplayName() + " " + qApp->applicationVersion());
+}
+
+
+void MainGUI::updateActions()
+{
+	bool hasProject = m_projectManager->hasProject();
+	ui->actionCloseProject->setEnabled(hasProject);
+	ui->actionSaveProject->setEnabled(hasProject);
+	ui->actionOpenList->setEnabled(!hasProject);
+	ui->actionCheckDir->setEnabled(!hasProject);
+	ui->actionCheckFiles->setEnabled(!hasProject);
 }
 
