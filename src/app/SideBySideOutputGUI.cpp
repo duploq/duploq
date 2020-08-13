@@ -132,6 +132,8 @@ void SideBySideOutputGUI::setContentFrom(const QString &filePath1, const QString
             ui->LineNumber1->show();
             ui->LineNumber2->show();
 
+			ui->View2->show();
+
             showCross(0);
 
             return;
@@ -144,6 +146,8 @@ void SideBySideOutputGUI::setContentFrom(const QString &filePath1, const QString
     ui->PrevChunk->setEnabled(false);
     ui->LineNumber1->hide();
     ui->LineNumber2->hide();
+
+	ui->View2->hide();
 }
 
 

@@ -46,12 +46,12 @@ MainGUI::MainGUI(QWidget *parent)
 	QToolBar *mainToolBar = addToolBar(tr("Main Toolbar"));
 	mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     mainToolBar->setObjectName("MainToolbar");
-	mainToolBar->addAction(ui->actionCheckFiles);
-	mainToolBar->addAction(ui->actionCheckDir);
-	mainToolBar->addSeparator();
 	mainToolBar->addAction(ui->actionNewProject);
 	mainToolBar->addAction(ui->actionOpenProject);
 	mainToolBar->addAction(ui->actionSaveProject);
+	mainToolBar->addSeparator();
+	mainToolBar->addAction(ui->actionCheckFiles);
+	mainToolBar->addAction(ui->actionCheckDir);
 	mainToolBar->addSeparator();
 	mainToolBar->addAction(ui->actionSettings);
 	mainToolBar->addAction(ui->actionFindClones);
@@ -241,7 +241,34 @@ void MainGUI::on_actionNewProject_triggered()
 	if (filePath.isEmpty())
 		return;
 
-	if (!m_projectManager->setCurrentProject(filePath))
+	if (!m_projectManager->createProject(filePath))
+		return;
+
+	setWindowFilePath(filePath);
+	updateHeader();
+	updateActions();
+
+	m_consoleUI->clear();
+	m_rawOutputUI->clear();
+	m_sideOutputUI->clear();
+	m_blockOutputUI->clear();
+
+	QFileInfo projectFileInfo(filePath);
+	QString dirPath = projectFileInfo.absolutePath();
+	m_fileList = m_inputProcessor->createFileList(dirPath);
+	m_fileListUI->setFileList(m_fileList);
+
+	ui->actionFindClones->setEnabled(true);
+}
+
+
+void MainGUI::on_actionOpenProject_triggered()
+{
+	QString filePath = QFileDialog::getOpenFileName(nullptr, tr("Open project file..."), "", "duploq project file (*.dqp)");
+	if (filePath.isEmpty())
+		return;
+
+	if (!m_projectManager->openProject(filePath))
 		return;
 
 	setWindowFilePath(filePath);
@@ -397,7 +424,7 @@ void MainGUI::runProcess()
 
 void MainGUI::updateHeader()
 {
-    setWindowTitle(windowFilePath() + " - " + qApp->applicationDisplayName() + " " + qApp->applicationVersion());
+    setWindowTitle(windowFilePath() + "[*] - " + qApp->applicationDisplayName() + " " + qApp->applicationVersion());
 }
 
 

@@ -47,6 +47,7 @@ private Q_SLOTS:
     void on_actionCheckDir_triggered();
 
 	void on_actionNewProject_triggered();
+	void on_actionOpenProject_triggered();
 
     void on_actionFindClones_triggered();
     void on_actionSettings_triggered();

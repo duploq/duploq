@@ -13,7 +13,8 @@ public:
 
 	bool hasProject() const							{ return m_projectFilePath.size(); }
 	const QString& getCurrentProject() const		{ return m_projectFilePath; }
-	bool setCurrentProject(const QString& projectFilePath);
+	bool createProject(const QString& projectFilePath);
+	bool openProject(const QString& projectFilePath);
 
 private:
 	QString m_projectFilePath;

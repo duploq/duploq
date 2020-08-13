@@ -3,6 +3,7 @@
 #include "InputProcessor.h"
 
 #include <QSettings>
+#include <QFile>
 
 
 ProjectManager::ProjectManager(InputProcessor &input, Engine &engine)
@@ -12,7 +13,7 @@ ProjectManager::ProjectManager(InputProcessor &input, Engine &engine)
 }
 
 
-bool ProjectManager::setCurrentProject(const QString &projectFilePath)
+bool ProjectManager::createProject(const QString &projectFilePath)
 {
 	m_projectFilePath = projectFilePath;
 
@@ -22,3 +23,19 @@ bool ProjectManager::setCurrentProject(const QString &projectFilePath)
 
 	return true;
 }
+
+
+bool ProjectManager::openProject(const QString &projectFilePath)
+{
+	if (!QFile::exists(projectFilePath))
+		return false;
+
+	m_projectFilePath = projectFilePath;
+
+	QSettings dqp(m_projectFilePath, QSettings::IniFormat);
+	m_engine->restoreConfig(dqp);
+	m_inputProcessor->restoreConfig(dqp);
+
+	return true;
+}
+

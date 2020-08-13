@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Clone Scout</string>
+   <string>duploq</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -27,14 +27,14 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpenList"/>
-    <addaction name="actionCheckFiles"/>
-    <addaction name="actionCheckDir"/>
-    <addaction name="separator"/>
     <addaction name="actionNewProject"/>
     <addaction name="actionOpenProject"/>
     <addaction name="actionSaveProject"/>
     <addaction name="actionCloseProject"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpenList"/>
+    <addaction name="actionCheckFiles"/>
+    <addaction name="actionCheckDir"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -127,7 +127,7 @@
     <string>New project...</string>
    </property>
    <property name="toolTip">
-    <string>Create new project</string>
+    <string>Create new project using current settings</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -154,10 +154,10 @@
      <normaloff>:/Icons/SaveProject</normaloff>:/Icons/SaveProject</iconset>
    </property>
    <property name="text">
-    <string>Save project...</string>
+    <string>Save project</string>
    </property>
    <property name="toolTip">
-    <string>Save project settings into file</string>
+    <string>Save current project settings</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
