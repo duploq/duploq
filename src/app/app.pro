@@ -1,4 +1,9 @@
+TEMPLATE = app
+
 TARGET = duploq
+
+# version
+include($$PWD/../engine/version.pri)
 
 # output
 CONFIG(debug, debug|release){
@@ -8,14 +13,7 @@ else{
 	DESTDIR = $$OUT_PWD/../bin
 }
 
-# temp dirs (unix)
-unix{
-	MOC_DIR = $$OUT_PWD/_generated
-	OBJECTS_DIR = $$OUT_PWD/_generated
-	UI_DIR = $$OUT_PWD/_generated
-	RCC_DIR = $$OUT_PWD/_generated
-}
-
+# config
 QT += core gui widgets xml
 
 CONFIG += c++17
@@ -34,12 +32,10 @@ win32-msvc*{
 win32{
     VERSION = 0.1.0
     RC_ICONS = $$PWD/Icons/MainIcon.ico
-    QMAKE_TARGET_COPYRIGHT = (C) 2020 A.Masyuk
+    QMAKE_TARGET_COPYRIGHT = (C) 2020 Ars L. Masiuk
     QMAKE_TARGET_DESCRIPTION = DuploQ - source code duplicate finder frontend
     QMAKE_TARGET_PRODUCT = DuploQ
 }
-
-include($$PWD/../engine/version.pri)
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -60,15 +56,55 @@ INCLUDEPATH += $$PWD/3rdparty
 
 TRANSLATIONS += $$files($$PWD/../translations/*.ts)
 
-UI_DIR = $$OUT_PWD/$$TARGET
-MOC_DIR = $$OUT_PWD/$$TARGET
-OBJECTS_DIR = $$OUT_PWD/$$TARGET
-RCC_DIR = $$OUT_PWD/$$TARGET
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
-
 RESOURCES += \
     app.qrc
+
+# temp dirs (unix)
+unix{
+	MOC_DIR = $$OUT_PWD/_generated
+	OBJECTS_DIR = $$OUT_PWD/_generated
+	UI_DIR = $$OUT_PWD/_generated
+	RCC_DIR = $$OUT_PWD/_generated
+}
+else{
+	UI_DIR = $$OUT_PWD/$$TARGET
+	MOC_DIR = $$OUT_PWD/$$TARGET
+	OBJECTS_DIR = $$OUT_PWD/$$TARGET
+	RCC_DIR = $$OUT_PWD/$$TARGET
+}
+
+# install
+unix{
+    PREFIX_DIR = $${PREFIX}
+
+#message($$PREFIX_DIR)
+
+    isEmpty(PREFIX_DIR) {
+        PREFIX_DIR = /usr/local
+    }
+
+#message($$PREFIX_DIR)
+
+    target.path = $$PREFIX_DIR/bin
+    INSTALLS += target
+
+#message($$target.path)
+
+    engine.path = $$PREFIX_DIR/bin
+    engine.files = $$DESTDIR/duplo
+    INSTALLS += engine
+
+
+    desktop.path = $$PREFIX_DIR/share/applications/
+    desktop.files = $$PWD/linux/duploq.desktop
+    INSTALLS += desktop
+
+    icon.path = $PREFIX_DIR/share/pixmaps
+    icon.files = $$PWD/linux/duploq.png
+    INSTALLS += icon
+
+    appdata.path = $$PREFIX_DIR/share/appdata/
+    appdata.files = $$PWD/linux/duploq.appdata.xml
+    INSTALLS += appdata
+}
+

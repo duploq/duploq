@@ -1,0 +1,9 @@
+[Desktop Entry]
+Encoding=UTF-8
+Terminal=false
+Name=DuploQ
+Comment=GUI frontend for Duplo copy-paste finder
+Exec=duploq %F
+Icon=duploq.png
+Type=Application
+Categories=Development;Qt;
