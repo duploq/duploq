@@ -21,8 +21,10 @@ public:
     explicit FileListGUI(QWidget *parent = nullptr);
     ~FileListGUI();
 
-    void setFileList(const QStringList &fileList);
-    void setFileListFrom(const QString &fileListPath);
+	void clear() { setFileList(QStringList(), QString()); }
+
+    void setFileList(const QStringList &fileList, const QString &rootPath);
+    void setFileListFrom(const QString &fileListPath, const QString &rootPath);
 
     void setFileListResults(const ResultInfo &results);
 
@@ -45,6 +47,7 @@ private:
     Ui::FileListGUI *ui;
 
     QStringList m_fileList;
+	QString m_rootPath;
 };
 
 #endif // FILELISTGUI_H

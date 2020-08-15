@@ -15,6 +15,8 @@ public:
 	const QString& getCurrentProject() const		{ return m_projectFilePath; }
 	bool createProject(const QString& projectFilePath);
 	bool openProject(const QString& projectFilePath);
+	bool saveCurrentProject();
+	void closeCurrentProject();
 
 private:
 	QString m_projectFilePath;

@@ -123,6 +123,11 @@
        <string>Total</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>temp</string>
+      </property>
+     </column>
     </widget>
    </item>
    <item>

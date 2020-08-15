@@ -1,8 +1,22 @@
-TARGET = engine
+TARGET = duplo
 
 TEMPLATE = app
 
-DESTDIR = $$OUT_PWD/../bin
+# output
+CONFIG(debug, debug|release){
+	DESTDIR = $$OUT_PWD/../bin.debug
+}
+else{
+	DESTDIR = $$OUT_PWD/../bin
+}
+
+# temp dirs (unix)
+unix{
+	MOC_DIR = $$OUT_PWD/_generated
+	OBJECTS_DIR = $$OUT_PWD/_generated
+	UI_DIR = $$OUT_PWD/_generated
+	RCC_DIR = $$OUT_PWD/_generated
+}
 
 CONFIG += c++17 console
 

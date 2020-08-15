@@ -2,6 +2,7 @@
 #include "ui_FileListGUI.h"
 
 #include <QFile>
+#include <QDir>
 #include <QTextStream>
 
 
@@ -41,6 +42,7 @@ FileListGUI::FileListGUI(QWidget *parent) :
     ui->FileListTree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->FileListTree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->FileListTree->header()->setSectionsMovable(false);
+	ui->FileListTree->header()->hideSection(4);
 }
 
 
@@ -50,18 +52,25 @@ FileListGUI::~FileListGUI()
 }
 
 
-void FileListGUI::setFileList(const QStringList &fileList)
+void FileListGUI::setFileList(const QStringList &fileList, const QString &rootPath)
 {
     ui->FileListTree->setUpdatesEnabled(false);
 
     ui->FileListTree->clear();
 
+	QDir rootDir(rootPath);
+
     for (const auto &filePath : fileList)
     {
+		QString localPath = rootDir.relativeFilePath(filePath);
+
         auto item = new TreeWidgetItem;
-        item->setText(0, filePath);
+		//item->setData(0, Qt::UserRole, filePath);
+		item->setText(0, localPath.size() ? localPath : filePath);
         item->setText(1, "");
         item->setText(2, "");
+        //item->setText(3, "");
+        item->setText(4, filePath);
         ui->FileListTree->addTopLevelItem(item);
     }
 
@@ -74,10 +83,11 @@ void FileListGUI::setFileList(const QStringList &fileList)
 
     // store the list for results
     m_fileList = fileList;
+	m_rootPath = rootPath;
 }
 
 
-void FileListGUI::setFileListFrom(const QString &fileListPath)
+void FileListGUI::setFileListFrom(const QString &fileListPath, const QString &rootPath)
 {
     QStringList fileList;
 
@@ -95,14 +105,14 @@ void FileListGUI::setFileListFrom(const QString &fileListPath)
         file.close();
     }
 
-    setFileList(fileList);
+    setFileList(fileList, rootPath);
 }
 
 
 void FileListGUI::setFileListResults(const ResultInfo &results)
 {
     // clean file list
-    setFileList(m_fileList);
+    setFileList(m_fileList, m_rootPath);
 
     // merge with results
     ui->FileListTree->setUpdatesEnabled(false);
@@ -113,13 +123,27 @@ void FileListGUI::setFileListResults(const ResultInfo &results)
 	int globalRepeatCount = 0;
 	int globalRepeatLines = 0;
 
+	QDir rootDir(m_rootPath);
+
     for (auto it = results.fileCrosses.constBegin(); it != results.fileCrosses.constEnd(); ++it)
     {
         const QString &name1 = it.key();
         int index = m_fileList.indexOf(name1);
         Q_ASSERT(index >= 0);
 
-        auto items = ui->FileListTree->findItems(name1, Qt::MatchExactly);
+	/*	QModelIndexList found = ui->FileListTree->model()->match(
+			ui->FileListTree->model()->index(0, 0),
+			Qt::UserRole,
+			name1,
+			1,
+			Qt::MatchExactly);
+
+		Q_ASSERT(found.size() == 1);
+
+		auto item1 = ui->FileListTree->item(found.first());
+		Q_ASSERT(item1);*/
+
+        auto items = ui->FileListTree->findItems(name1, Qt::MatchExactly, 4);
         Q_ASSERT(items.size() == 1);
 
         auto item1 = items.first();
@@ -158,8 +182,11 @@ void FileListGUI::setFileListResults(const ResultInfo &results)
                 extRepeatCount += repeatCount;
                 extRepeatLines += repeatLines;
 
+				QString localPath = rootDir.relativeFilePath(name2);
+
                 auto item2 = new QTreeWidgetItem(item1);
-                item2->setText(0, name2);
+                item2->setText(0, localPath);
+                item2->setText(4, name2);
                 item2->setText(2, QString("%2 / %1").arg(repeatCount).arg(repeatLines));
 				item1->setData(2, Qt::UserRole, repeatLines);
 
@@ -230,11 +257,21 @@ void FileListGUI::on_FileListTree_currentItemChanged(QTreeWidgetItem *item, QTre
 
     if (item->parent())
     {
-        Q_EMIT(filesChosen(item->parent()->text(0), item->text(0)));
+        Q_EMIT(
+			filesChosen(
+				item->parent()->text(4), item->text(4)
+				//item->parent()->data(0, Qt::UserRole).toString(), 
+				//item->data(0, Qt::UserRole).toString()
+			));
     }
     else
     {
-        Q_EMIT(filesChosen(item->text(0), item->text(0)));
+        Q_EMIT(
+			filesChosen(
+				item->text(4), item->text(4)
+				//item->data(0, Qt::UserRole).toString(), 
+				//item->data(0, Qt::UserRole).toString()
+			));
     }
 }
 

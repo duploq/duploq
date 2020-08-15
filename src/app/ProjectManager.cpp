@@ -17,11 +17,7 @@ bool ProjectManager::createProject(const QString &projectFilePath)
 {
 	m_projectFilePath = projectFilePath;
 
-	QSettings dqp(m_projectFilePath, QSettings::IniFormat);
-	m_engine->storeConfig(dqp);
-	m_inputProcessor->storeConfig(dqp);
-
-	return true;
+	return saveCurrentProject();
 }
 
 
@@ -29,6 +25,8 @@ bool ProjectManager::openProject(const QString &projectFilePath)
 {
 	if (!QFile::exists(projectFilePath))
 		return false;
+
+	saveCurrentProject();
 
 	m_projectFilePath = projectFilePath;
 
@@ -39,3 +37,26 @@ bool ProjectManager::openProject(const QString &projectFilePath)
 	return true;
 }
 
+
+bool ProjectManager::saveCurrentProject()
+{
+	if (m_projectFilePath.isEmpty())
+		return false;
+
+	QSettings dqp(m_projectFilePath, QSettings::IniFormat);
+	m_engine->storeConfig(dqp);
+	m_inputProcessor->storeConfig(dqp);
+
+	return true;
+}
+
+
+void ProjectManager::closeCurrentProject()
+{
+	if (m_projectFilePath.isEmpty())
+		return;
+
+	saveCurrentProject();
+
+	m_projectFilePath.clear();
+}

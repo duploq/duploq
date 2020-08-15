@@ -48,7 +48,7 @@ MainGUI::MainGUI(QWidget *parent)
     mainToolBar->setObjectName("MainToolbar");
 	mainToolBar->addAction(ui->actionNewProject);
 	mainToolBar->addAction(ui->actionOpenProject);
-	mainToolBar->addAction(ui->actionSaveProject);
+	//mainToolBar->addAction(ui->actionSaveProject);
 	mainToolBar->addSeparator();
 	mainToolBar->addAction(ui->actionCheckFiles);
 	mainToolBar->addAction(ui->actionCheckDir);
@@ -105,9 +105,7 @@ MainGUI::MainGUI(QWidget *parent)
 	m_projectManager = new ProjectManager(*m_inputProcessor, *m_engine);
 
 	// update GUI
-	setWindowFilePath(tr("<Nothing loaded>"));
-	updateHeader();
-	updateActions();
+	reset();
 }
 
 
@@ -253,10 +251,13 @@ void MainGUI::on_actionNewProject_triggered()
 	m_sideOutputUI->clear();
 	m_blockOutputUI->clear();
 
+	// show current settings as well
+	on_actionSettings_triggered();
+
 	QFileInfo projectFileInfo(filePath);
 	QString dirPath = projectFileInfo.absolutePath();
 	m_fileList = m_inputProcessor->createFileList(dirPath);
-	m_fileListUI->setFileList(m_fileList);
+	m_fileListUI->setFileList(m_fileList, dirPath);
 
 	ui->actionFindClones->setEnabled(true);
 }
@@ -283,9 +284,17 @@ void MainGUI::on_actionOpenProject_triggered()
 	QFileInfo projectFileInfo(filePath);
 	QString dirPath = projectFileInfo.absolutePath();
 	m_fileList = m_inputProcessor->createFileList(dirPath);
-	m_fileListUI->setFileList(m_fileList);
+	m_fileListUI->setFileList(m_fileList, dirPath);
 
 	ui->actionFindClones->setEnabled(true);
+}
+
+
+void MainGUI::on_actionCloseProject_triggered()
+{
+	m_projectManager->closeCurrentProject();
+
+	reset();
 }
 
 
@@ -296,16 +305,18 @@ void MainGUI::on_actionFindClones_triggered()
     m_sideOutputUI->clear();
     m_blockOutputUI->clear();
 
+	QString dirPath;
+
 	if (m_projectManager->hasProject())
 	{
 		QFileInfo projectFileInfo(m_projectManager->getCurrentProject());
-		QString dirPath = projectFileInfo.absolutePath();
+		dirPath = projectFileInfo.absolutePath();
 		m_fileList = m_inputProcessor->createFileList(dirPath);
 		createTempFileList(m_fileList);
 		createTempResultFile();
 	}
 
-    m_fileListUI->setFileListFrom(m_fileListPath);
+    m_fileListUI->setFileListFrom(m_fileListPath, dirPath);
 
     runProcess();
 }
@@ -314,7 +325,10 @@ void MainGUI::on_actionFindClones_triggered()
 void MainGUI::on_actionSettings_triggered()
 {
     SettingsGUI settingsDialog;
-    settingsDialog.exec(*m_inputProcessor, *m_engine);
+    bool ok = settingsDialog.exec(*m_inputProcessor, *m_engine);
+
+	if (ok && m_projectManager->hasProject())
+		m_projectManager->saveCurrentProject();
 }
 
 
@@ -438,3 +452,20 @@ void MainGUI::updateActions()
 	ui->actionCheckFiles->setEnabled(!hasProject);
 }
 
+
+void MainGUI::reset()
+{
+	setWindowFilePath(tr("<Nothing loaded>"));
+	updateHeader();
+	updateActions();
+
+	m_consoleUI->clear();
+	m_rawOutputUI->clear();
+	m_sideOutputUI->clear();
+	m_blockOutputUI->clear();
+	m_fileListUI->clear();
+
+	m_fileList.clear();
+	m_fileListPath.clear();
+	m_fileResultPath.clear();
+}

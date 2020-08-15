@@ -48,6 +48,7 @@ private Q_SLOTS:
 
 	void on_actionNewProject_triggered();
 	void on_actionOpenProject_triggered();
+	void on_actionCloseProject_triggered();
 
     void on_actionFindClones_triggered();
     void on_actionSettings_triggered();
@@ -68,6 +69,7 @@ private:
 
     void updateHeader();
 	void updateActions();
+	void reset();
 
 private:
     Ui::MainGUI *ui;

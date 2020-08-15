@@ -1,6 +1,20 @@
 TARGET = duploq
 
-DESTDIR = $$OUT_PWD/../bin
+# output
+CONFIG(debug, debug|release){
+	DESTDIR = $$OUT_PWD/../bin.debug
+}
+else{
+	DESTDIR = $$OUT_PWD/../bin
+}
+
+# temp dirs (unix)
+unix{
+	MOC_DIR = $$OUT_PWD/_generated
+	OBJECTS_DIR = $$OUT_PWD/_generated
+	UI_DIR = $$OUT_PWD/_generated
+	RCC_DIR = $$OUT_PWD/_generated
+}
 
 QT += core gui widgets xml
 

@@ -29,7 +29,6 @@
     </property>
     <addaction name="actionNewProject"/>
     <addaction name="actionOpenProject"/>
-    <addaction name="actionSaveProject"/>
     <addaction name="actionCloseProject"/>
     <addaction name="separator"/>
     <addaction name="actionOpenList"/>
