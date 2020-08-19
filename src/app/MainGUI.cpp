@@ -34,6 +34,8 @@ MainGUI::MainGUI(QWidget *parent)
 	QCoreApplication::setOrganizationName("DuploQ");
 	QCoreApplication::setApplicationName("DuploQ");
 
+    setWindowIcon(QIcon(":/Icons/MainIcon"));
+
     ui->actionFindClones->setEnabled(false);
 
     // process dialog
@@ -238,6 +240,11 @@ void MainGUI::on_actionNewProject_triggered()
 	QString filePath = QFileDialog::getSaveFileName(nullptr, tr("New project file..."), "", "duploq project file (*.dqp)");
 	if (filePath.isEmpty())
 		return;
+
+    if (!filePath.endsWith(".dqp"))
+    {
+        filePath += ".dqp"; 
+    }
 
 	if (!m_projectManager->createProject(filePath))
 		return;

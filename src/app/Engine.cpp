@@ -27,7 +27,7 @@ bool Engine::start(const QString &fileListPath, const QString &fileResultPath)
 #ifdef Q_OS_WINDOWS
     m_engineProcess.start("duplo.exe", argz);
 #else
-    m_engineProcess.start("./duplo", argz);
+    m_engineProcess.start("duplo", argz);
 #endif
     return true;
 }
