@@ -1,9 +1,13 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
+include(config.pri)
+
 # engine
-SUBDIRS += engine
-engine.file = ./engine/engine.pro
+BUILD_DUPLO{
+	SUBDIRS += engine
+	engine.file = ./engine/engine.pro
+}
 
 # app
 SUBDIRS += app

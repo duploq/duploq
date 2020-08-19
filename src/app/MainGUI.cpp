@@ -31,8 +31,8 @@ MainGUI::MainGUI(QWidget *parent)
 
     //ui->actionExit->setShortcut(QKeySequence::Quit);
 	QCoreApplication::setApplicationVersion("0.1");
-	QCoreApplication::setOrganizationName("qvge");
-	QCoreApplication::setApplicationName("duploq");
+	QCoreApplication::setOrganizationName("DuploQ");
+	QCoreApplication::setApplicationName("DuploQ");
 
     ui->actionFindClones->setEnabled(false);
 

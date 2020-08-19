@@ -2,8 +2,7 @@ TEMPLATE = app
 
 TARGET = duploq
 
-# version
-include($$PWD/../engine/version.pri)
+include(../config.pri)
 
 # output
 CONFIG(debug, debug|release){
@@ -29,13 +28,17 @@ win32-msvc*{
     contains(QMAKE_HOST.arch, x86) {QMAKE_CXXFLAGS += /arch:SSE2}
 }
 
+# version
+include($$PWD/../engine/version.pri)
+
 win32{
-    VERSION = 0.1.0
     RC_ICONS = $$PWD/Icons/MainIcon.ico
-    QMAKE_TARGET_COPYRIGHT = (C) 2020 Ars L. Masiuk
-    QMAKE_TARGET_DESCRIPTION = DuploQ - source code duplicate finder frontend
-    QMAKE_TARGET_PRODUCT = DuploQ
 }
+
+VERSION = 0.1.0
+QMAKE_TARGET_COPYRIGHT = (C) 2020 Ars L. Masiuk
+QMAKE_TARGET_DESCRIPTION = DuploQ - source code duplicate finder frontend
+QMAKE_TARGET_PRODUCT = DuploQ
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -90,10 +93,11 @@ unix{
 
 #message($$target.path)
 
+BUILD_DUPLO{
     engine.path = $$PREFIX_DIR/bin
     engine.files = $$DESTDIR/duplo
     INSTALLS += engine
-
+}
 
     desktop.path = $$PREFIX_DIR/share/applications/
     desktop.files = $$PWD/linux/duploq.desktop
