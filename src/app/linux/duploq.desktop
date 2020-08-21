@@ -1,9 +1,11 @@
 [Desktop Entry]
-Encoding=UTF-8
-Terminal=false
 Name=DuploQ
-Comment=GUI frontend for Duplo copy-paste finder
-Exec=duploq %F
-Icon=duploq.png
+Version=1.0
+Exec=duploq
+Comment=Duplo GUI Frontend
+Icon=/usr/share/duploq/duploq.png
 Type=Application
-Categories=Development;Qt;
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
+Categories=Development;Qt;Utility;
