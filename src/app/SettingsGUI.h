@@ -22,7 +22,12 @@ public:
 
     bool exec(InputProcessor &input, Engine &engine);
 
+private Q_SLOTS:
+	void onPresetMenu(QAction *action);
+
 private:
+	void fillPresetMenu();
+
     Ui::SettingsGUI *ui;
 };
 

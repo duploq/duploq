@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>385</width>
-    <height>303</height>
+    <width>436</width>
+    <height>315</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,15 +19,18 @@
      <property name="title">
       <string>Input</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QLabel" name="label_5">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="5" column="0">
+       <widget class="QCheckBox" name="RecursiveDirs">
         <property name="text">
-         <string>Process files matching filters (space-separated list):</string>
+         <string>Recursive search in subdirectories</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="2" column="0" colspan="2">
        <widget class="QLineEdit" name="FileFilters">
         <property name="text">
          <string/>
@@ -40,14 +43,40 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="3" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
          <string>Ignore files matching filters (space-separated list):</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="1" column="1">
+       <widget class="QToolButton" name="PresetFilters">
+        <property name="toolTip">
+         <string>Use filters common for a language</string>
+        </property>
+        <property name="text">
+         <string>Language preset...</string>
+        </property>
+        <property name="popupMode">
+         <enum>QToolButton::InstantPopup</enum>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextOnly</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Process files matching filters (space-separated list):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
        <widget class="QLineEdit" name="IgnoreFilters">
         <property name="text">
          <string/>
@@ -56,16 +85,6 @@
          <string>Enter ignored filters here (if any)</string>
         </property>
         <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="RecursiveDirs">
-        <property name="text">
-         <string>Recursive search in subdirectories</string>
-        </property>
-        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
@@ -172,6 +191,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>PresetFilters</tabstop>
+  <tabstop>FileFilters</tabstop>
+  <tabstop>IgnoreFilters</tabstop>
+  <tabstop>RecursiveDirs</tabstop>
+  <tabstop>MinSymbolsInLine</tabstop>
+  <tabstop>MinLinesInBlock</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
