@@ -1,4 +1,4 @@
-DUPLO_VERSION=0.5.0
+DUPLO_VERSION=0.6.0
 
 # console & studio build
 msvc*{

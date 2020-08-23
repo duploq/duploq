@@ -159,13 +159,13 @@ void SideBySideOutputGUI::showCross(int index)
 
     int line1 = m_crosses[index].start1;
     int line2 = m_crosses[index].start2;
-    ui->LineNumber1->setNum(line1+1);
-    ui->LineNumber2->setNum(line2+1);
+    ui->LineNumber1->setNum(line1);
+    ui->LineNumber2->setNum(line2);
 
     int lineCount = m_results->chunks[ m_crosses[index].chunkIndex ].lineCount;
 
-    setupBlock(ui->View1, line1, lineCount);
-    setupBlock(ui->View2, line2, lineCount);
+    setupBlock(ui->View1, line1-1, lineCount);
+    setupBlock(ui->View2, line2-1, lineCount);
 
     Q_EMIT blockShown(m_crosses[index].chunkIndex);
 }

@@ -138,14 +138,14 @@ void FileBlockViewGUI::showBlock(int index)
     ui->ChunkLabel->setText(tr("%1 of %2").arg(index + 1).arg(m_starts.count()));
 
     int line = m_starts[index];
-    ui->LineNumber->setNum(line + 1);
+    ui->LineNumber->setNum(line);
 
     ui->LineNumber->show();
     ui->PrevChunk->show();
     ui->NextChunk->show();
     ui->ChunkLabel->show();
 
-    setupBlock(ui->View, line, m_linesCount);
+    setupBlock(ui->View, line-1, m_linesCount);
 }
 
 
