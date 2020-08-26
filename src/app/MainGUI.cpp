@@ -7,6 +7,7 @@
 #include "ConsoleGUI.h"
 #include "FileListGUI.h"
 #include "SettingsGUI.h"
+#include "ProjectSettingsGUI.h"
 #include "RawOutputGUI.h"
 #include "SideBySideOutputGUI.h"
 #include "BlockOutputGUI.h"
@@ -50,7 +51,7 @@ MainGUI::MainGUI(QWidget *parent)
     mainToolBar->setObjectName("MainToolbar");
 	mainToolBar->addAction(ui->actionNewProject);
 	mainToolBar->addAction(ui->actionOpenProject);
-	//mainToolBar->addAction(ui->actionSaveProject);
+	mainToolBar->addAction(ui->actionEditProject);
 	mainToolBar->addSeparator();
 	mainToolBar->addAction(ui->actionCheckFiles);
 	mainToolBar->addAction(ui->actionCheckDir);
@@ -297,6 +298,16 @@ void MainGUI::on_actionOpenProject_triggered()
 }
 
 
+void MainGUI::on_actionEditProject_triggered()
+{
+	ProjectSettingsGUI projectSettingsDialog;
+	bool ok = projectSettingsDialog.exec(*m_projectManager);
+
+	if (ok && m_projectManager->hasProject())
+		m_projectManager->saveCurrentProject();
+}
+
+
 void MainGUI::on_actionCloseProject_triggered()
 {
 	m_projectManager->closeCurrentProject();
@@ -452,6 +463,7 @@ void MainGUI::updateHeader()
 void MainGUI::updateActions()
 {
 	bool hasProject = m_projectManager->hasProject();
+	ui->actionEditProject->setEnabled(hasProject);
 	ui->actionCloseProject->setEnabled(hasProject);
 	ui->actionSaveProject->setEnabled(hasProject);
 	ui->actionOpenList->setEnabled(!hasProject);

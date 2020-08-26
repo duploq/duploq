@@ -29,6 +29,7 @@
     </property>
     <addaction name="actionNewProject"/>
     <addaction name="actionOpenProject"/>
+    <addaction name="actionEditProject"/>
     <addaction name="actionCloseProject"/>
     <addaction name="separator"/>
     <addaction name="actionOpenList"/>
@@ -172,6 +173,18 @@
    </property>
    <property name="toolTip">
     <string>Close current project</string>
+   </property>
+  </action>
+  <action name="actionEditProject">
+   <property name="icon">
+    <iconset resource="app.qrc">
+     <normaloff>:/Icons/Settings</normaloff>:/Icons/Settings</iconset>
+   </property>
+   <property name="text">
+    <string>Project settings...</string>
+   </property>
+   <property name="toolTip">
+    <string>Change project settings</string>
    </property>
   </action>
  </widget>
