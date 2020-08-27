@@ -13,6 +13,14 @@ ProjectManager::ProjectManager(InputProcessor &input, Engine &engine)
 }
 
 
+void ProjectManager::setSubdirectories(const QStringList& subdirs)
+{
+	m_subdirs = subdirs;
+
+	saveCurrentProject();
+}
+
+
 bool ProjectManager::createProject(const QString &projectFilePath)
 {
 	m_projectFilePath = projectFilePath;
@@ -33,6 +41,7 @@ bool ProjectManager::openProject(const QString &projectFilePath)
 	QSettings dqp(m_projectFilePath, QSettings::IniFormat);
 	m_engine->restoreConfig(dqp);
 	m_inputProcessor->restoreConfig(dqp);
+	restoreConfig(dqp);
 
 	return true;
 }
@@ -46,6 +55,7 @@ bool ProjectManager::saveCurrentProject()
 	QSettings dqp(m_projectFilePath, QSettings::IniFormat);
 	m_engine->storeConfig(dqp);
 	m_inputProcessor->storeConfig(dqp);
+	storeConfig(dqp);
 
 	return true;
 }
@@ -60,3 +70,20 @@ void ProjectManager::closeCurrentProject()
 
 	m_projectFilePath.clear();
 }
+
+
+void ProjectManager::storeConfig(QSettings &set)
+{
+	set.beginGroup("ProjectManager");
+	set.setValue("SubDirectories", m_subdirs);
+	set.endGroup();
+}
+
+
+void ProjectManager::restoreConfig(QSettings &set)
+{
+	set.beginGroup("ProjectManager");
+	m_subdirs = set.value("SubDirectories", m_subdirs).toStringList();
+	set.endGroup();
+}
+

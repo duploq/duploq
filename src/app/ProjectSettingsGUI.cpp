@@ -4,6 +4,7 @@
 #include "ProjectManager.h"
 
 #include <QFileInfo>
+#include <QFileDialog>
 
 
 ProjectSettingsGUI::ProjectSettingsGUI(QWidget *parent) :
@@ -23,28 +24,22 @@ ProjectSettingsGUI::~ProjectSettingsGUI()
 bool ProjectSettingsGUI::exec(ProjectManager &manager)
 {
 	QFileInfo rootInfo(manager.getCurrentProject());
-	QString rootPath = rootInfo.absolutePath();
-	ui->RootDirectory->setText(rootPath);
+	m_rootPath = rootInfo.absolutePath();
+	ui->RootDirectory->setText(m_rootPath);
 
-    /*InputOptions inputOpts = input.getOptions();
-    ui->RecursiveDirs->setChecked(inputOpts.dirsRecursive);
-    ui->FileFilters->setText(inputOpts.fileFilters);
-    ui->IgnoreFilters->setText(inputOpts.ignoreFilters);
+	QStringList subdirs = manager.getSubdirectories();
+	ui->DirectoryList->clear();
+	ui->DirectoryList->addItems(subdirs);
 
-    EngineOptions options = engine.getOptions();
-    ui->MinSymbolsInLine->setValue(options.minLineLength);
-    ui->MinLinesInBlock->setValue(options.minBlockSize);
-	*/
+	updateActions();
+
     if (QDialog::exec() == QDialog::Accepted)
     {
-        //options.minBlockSize = ui->MinLinesInBlock->value();
-        //options.minLineLength = ui->MinSymbolsInLine->value();
-        //engine.setOptions(options);
+		subdirs.clear();
+		for (int i = 0; i < ui->DirectoryList->count(); ++i)
+			subdirs << ui->DirectoryList->item(i)->text();
 
-        //inputOpts.dirsRecursive = ui->RecursiveDirs->isChecked();
-        //inputOpts.fileFilters = ui->FileFilters->text();
-        //inputOpts.ignoreFilters = ui->IgnoreFilters->text();
-        //input.setOptions(inputOpts);
+		manager.setSubdirectories(subdirs);
 
         return true;
     }
@@ -52,3 +47,46 @@ bool ProjectSettingsGUI::exec(ProjectManager &manager)
     return false;
 }
 
+
+void ProjectSettingsGUI::on_Add_clicked()
+{
+	QString dirPath = QFileDialog::getExistingDirectory(this, tr("Add subdirectory"),
+		m_rootPath,
+		QFileDialog::ShowDirsOnly 
+		| QFileDialog::ReadOnly
+		| QFileDialog::DontResolveSymlinks);
+
+	if (dirPath.isEmpty())
+		return;
+
+	QDir rootDir(m_rootPath);
+	QString relativePath = rootDir.relativeFilePath(dirPath);
+
+	ui->DirectoryList->addItem(relativePath);
+
+	updateActions();
+}
+
+
+void ProjectSettingsGUI::on_Remove_clicked()
+{
+	if (ui->DirectoryList->currentRow() >= 0)
+	{
+		delete ui->DirectoryList->currentItem();
+
+		updateActions();
+	}
+}
+
+
+void ProjectSettingsGUI::updateActions()
+{
+	bool isSelected = (ui->DirectoryList->currentRow() >= 0);
+	ui->Remove->setEnabled(isSelected);
+}
+
+
+void ProjectSettingsGUI::on_DirectoryList_itemSelectionChanged()
+{
+	updateActions();
+}

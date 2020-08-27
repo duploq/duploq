@@ -24,7 +24,7 @@ public:
     void storeConfig(QSettings &set);
     void restoreConfig(QSettings &set);
 
-    QStringList createFileList(const QString &dirPath) const;
+	QStringList createFileList(const QString &dirPath, const QStringList &subdirs = {}) const;
     QStringList readFileList(const QString &fileListPath) const;
 
 private:

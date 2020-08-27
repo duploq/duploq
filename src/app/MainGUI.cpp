@@ -260,11 +260,12 @@ void MainGUI::on_actionNewProject_triggered()
 	m_blockOutputUI->clear();
 
 	// show current settings as well
+	on_actionEditProject_triggered();
 	on_actionSettings_triggered();
 
 	QFileInfo projectFileInfo(filePath);
 	QString dirPath = projectFileInfo.absolutePath();
-	m_fileList = m_inputProcessor->createFileList(dirPath);
+	m_fileList = m_inputProcessor->createFileList(dirPath, m_projectManager->getSubdirectories());
 	m_fileListUI->setFileList(m_fileList, dirPath);
 
 	ui->actionFindClones->setEnabled(true);
@@ -291,7 +292,7 @@ void MainGUI::on_actionOpenProject_triggered()
 
 	QFileInfo projectFileInfo(filePath);
 	QString dirPath = projectFileInfo.absolutePath();
-	m_fileList = m_inputProcessor->createFileList(dirPath);
+	m_fileList = m_inputProcessor->createFileList(dirPath, m_projectManager->getSubdirectories());
 	m_fileListUI->setFileList(m_fileList, dirPath);
 
 	ui->actionFindClones->setEnabled(true);
@@ -329,7 +330,7 @@ void MainGUI::on_actionFindClones_triggered()
 	{
 		QFileInfo projectFileInfo(m_projectManager->getCurrentProject());
 		dirPath = projectFileInfo.absolutePath();
-		m_fileList = m_inputProcessor->createFileList(dirPath);
+		m_fileList = m_inputProcessor->createFileList(dirPath, m_projectManager->getSubdirectories());
 		createTempFileList(m_fileList);
 		createTempResultFile();
 	}

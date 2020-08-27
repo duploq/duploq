@@ -51,7 +51,7 @@ QStringList InputProcessor::readFileList(const QString &fileListPath) const
 }
 
 
-QStringList InputProcessor::createFileList(const QString &dirPath) const
+QStringList InputProcessor::createFileList(const QString &dirPath, const QStringList &subdirs) const
 {
     QStringList filePathList;
 
@@ -69,28 +69,49 @@ QStringList InputProcessor::createFileList(const QString &dirPath) const
 		ignoreRegExp << re;
 	}
 
-    QDirIterator dir(dirPath, filters, QDir::Files, QDirIterator::Subdirectories);
-    while (dir.hasNext())
-    {
-		QString filePath = dir.filePath();
-
-		// remove if ignored
-		if (ignoreRegExp.size())
+	QStringList dirs;
+	if (subdirs.isEmpty())
+		dirs << dirPath;
+	else
+	{
+		for (const QString& subPath : subdirs)
 		{
-			QString fileName = dir.fileName();
-			for (const auto& re : ignoreRegExp)
-			{
-				if (re.indexIn(fileName) >= 0)
-					goto _skip;
-			}
+			QFileInfo dirInfo(dirPath + "/" + subPath);
+			dirs << dirInfo.absoluteFilePath();
 		}
+	}
 
-		filePathList << filePath;
+	for (const QString& path : dirs)
+	{
+		QDirIterator dir(
+			path,
+			filters,
+			QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks,
+			m_inputOptions.dirsRecursive ? QDirIterator::Subdirectories : QDirIterator::NoIteratorFlags);
 
-	_skip:
+		while (dir.hasNext())
+		{
+			QString filePath = dir.next();
+			if (filePath.isEmpty())
+				break;
 
-		dir.next();
-	};
+			// remove if ignored
+			if (ignoreRegExp.size())
+			{
+				for (const auto& re : ignoreRegExp)
+				{
+					QString fileName = dir.fileName();
+					if (re.indexIn(fileName) >= 0)
+						goto _skip;
+				}
+			}
+
+			filePathList << filePath;
+
+		_skip:;
+
+		}
+	}
 
     return filePathList;
 }
