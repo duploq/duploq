@@ -30,6 +30,7 @@ bool ProjectSettingsGUI::exec(ProjectManager &manager)
 	QStringList subdirs = manager.getSubdirectories();
 	ui->DirectoryList->clear();
 	ui->DirectoryList->addItems(subdirs);
+	ui->DirectoryList->sortItems();
 
 	updateActions();
 
@@ -62,7 +63,17 @@ void ProjectSettingsGUI::on_Add_clicked()
 	QDir rootDir(m_rootPath);
 	QString relativePath = rootDir.relativeFilePath(dirPath);
 
+	auto foundItems = ui->DirectoryList->findItems(relativePath, Qt::MatchFixedString);
+	if (foundItems.size())
+	{
+		ui->DirectoryList->setCurrentItem(foundItems.first());
+		updateActions();
+		return;
+	}
+
 	ui->DirectoryList->addItem(relativePath);
+	ui->DirectoryList->setCurrentRow(ui->DirectoryList->count() - 1);
+	ui->DirectoryList->sortItems();
 
 	updateActions();
 }

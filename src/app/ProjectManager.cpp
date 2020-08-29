@@ -24,6 +24,7 @@ void ProjectManager::setSubdirectories(const QStringList& subdirs)
 bool ProjectManager::createProject(const QString &projectFilePath)
 {
 	m_projectFilePath = projectFilePath;
+	m_subdirs.clear();
 
 	return saveCurrentProject();
 }
@@ -37,6 +38,7 @@ bool ProjectManager::openProject(const QString &projectFilePath)
 	saveCurrentProject();
 
 	m_projectFilePath = projectFilePath;
+	m_subdirs.clear();
 
 	QSettings dqp(m_projectFilePath, QSettings::IniFormat);
 	m_engine->restoreConfig(dqp);
