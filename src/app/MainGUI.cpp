@@ -4,6 +4,7 @@
 #include "Engine.h"
 #include "InputProcessor.h"
 #include "ProjectManager.h"
+#include "RecentFilesManager.h"
 #include "ConsoleGUI.h"
 #include "FileListGUI.h"
 #include "SettingsGUI.h"
@@ -107,6 +108,11 @@ MainGUI::MainGUI(QWidget *parent)
 	// project manager
 	m_projectManager = new ProjectManager(*m_inputProcessor, *m_engine);
 
+	// recent files manager
+	m_recentFilesManager = new RecentFilesManager;
+	ui->actionRecentProjects->setMenu(m_recentFilesManager->getRecentFilesMenu());
+	connect(m_recentFilesManager, &RecentFilesManager::selected, this, &MainGUI::onRecentProjectSelected);
+
 	// update GUI
 	reset();
 }
@@ -116,6 +122,8 @@ MainGUI::~MainGUI()
 {
     delete m_resultProcessor;
     delete m_inputProcessor;
+
+	delete m_recentFilesManager;
 	delete m_projectManager;
 
     delete ui;
@@ -135,6 +143,8 @@ void MainGUI::storeConfig()
 
     m_engine->storeConfig(set);
     m_inputProcessor->storeConfig(set);
+
+	m_recentFilesManager->storeConfig(set);
 }
 
 
@@ -161,6 +171,10 @@ void MainGUI::restoreConfig()
 
     m_engine->restoreConfig(set);
     m_inputProcessor->restoreConfig(set);
+
+	m_recentFilesManager->restoreConfig(set);
+
+	updateActions();
 }
 
 
@@ -250,6 +264,8 @@ void MainGUI::on_actionNewProject_triggered()
 	if (!m_projectManager->createProject(filePath))
 		return;
 
+	m_recentFilesManager->addRecentDocument(filePath);
+
 	setWindowFilePath(filePath);
 	updateHeader();
 	updateActions();
@@ -272,14 +288,29 @@ void MainGUI::on_actionNewProject_triggered()
 }
 
 
+void MainGUI::onRecentProjectSelected(const QString& filePath)
+{
+	doOpenProject(filePath);
+}
+
+
 void MainGUI::on_actionOpenProject_triggered()
 {
 	QString filePath = QFileDialog::getOpenFileName(nullptr, tr("Open project file..."), "", "duploq project file (*.dqp)");
+
+	doOpenProject(filePath);
+}
+
+
+void MainGUI::doOpenProject(const QString& filePath)
+{
 	if (filePath.isEmpty())
 		return;
 
 	if (!m_projectManager->openProject(filePath))
 		return;
+
+	m_recentFilesManager->addRecentDocument(filePath);
 
 	setWindowFilePath(filePath);
 	updateHeader();
@@ -470,6 +501,9 @@ void MainGUI::updateActions()
 	ui->actionOpenList->setEnabled(!hasProject);
 	ui->actionCheckDir->setEnabled(!hasProject);
 	ui->actionCheckFiles->setEnabled(!hasProject);
+
+	bool hasRecent = m_recentFilesManager->getRecentFilesList().count();
+	ui->actionRecentProjects->setEnabled(hasRecent);
 }
 
 

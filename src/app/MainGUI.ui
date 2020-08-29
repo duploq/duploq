@@ -31,6 +31,7 @@
     <addaction name="actionOpenProject"/>
     <addaction name="actionEditProject"/>
     <addaction name="actionCloseProject"/>
+    <addaction name="actionRecentProjects"/>
     <addaction name="separator"/>
     <addaction name="actionOpenList"/>
     <addaction name="actionCheckFiles"/>
@@ -185,6 +186,14 @@
    </property>
    <property name="toolTip">
     <string>Change project settings</string>
+   </property>
+  </action>
+  <action name="actionRecentProjects">
+   <property name="text">
+    <string>Recent projects</string>
+   </property>
+   <property name="toolTip">
+    <string>Open recently used project file</string>
    </property>
   </action>
  </widget>

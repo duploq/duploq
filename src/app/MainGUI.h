@@ -19,6 +19,7 @@ class Engine;
 class InputProcessor;
 
 class ProjectManager;
+class RecentFilesManager;
 
 class ConsoleGUI;
 class FileListGUI;
@@ -50,6 +51,7 @@ private Q_SLOTS:
 	void on_actionOpenProject_triggered();
 	void on_actionEditProject_triggered();
 	void on_actionCloseProject_triggered();
+	void onRecentProjectSelected(const QString& filePath);
 
     void on_actionFindClones_triggered();
     void on_actionSettings_triggered();
@@ -71,6 +73,8 @@ private:
     void updateHeader();
 	void updateActions();
 	void reset();
+
+	void doOpenProject(const QString& filePath);
 
 private:
     Ui::MainGUI *ui;
@@ -95,6 +99,7 @@ private:
     QProgressDialog *m_progressDlg = nullptr;
 
 	ProjectManager *m_projectManager = nullptr;
+	RecentFilesManager *m_recentFilesManager = nullptr;
 };
 
 #endif // MAINGUI_H
