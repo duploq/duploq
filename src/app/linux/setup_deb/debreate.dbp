@@ -4,7 +4,8 @@ Package: duploq
 Version: 0.1
 Maintainer: Ars Masiuk <ars.masiuk@gmail.com>
 Section: devel
-Homepage: https://github.com/ArsMasiuk/duploq
+Source: https://github.com/duploq-app/duploq
+Homepage: https://github.com/duploq-app/duploq
 Architecture: amd64
 Priority: standard
 Depends: libqt5widgets5 (>=5.9.0)
@@ -16,9 +17,9 @@ Description: Duplo GUI Frontend
 <</CTRL>>
 <<FILES>>
 1
-/home/osboxes/Work/duploq/src/bin/duplo* -> duplo -> /usr/bin
-/home/osboxes/Work/duploq/src/bin/duploq* -> duploq -> /usr/bin
 /home/osboxes/Work/duploq/src/app/linux/duploq.png -> duploq.png -> /usr/share/duploq
+/home/osboxes/Work/duploq/src/bin/duploq* -> duploq -> /usr/bin
+/home/osboxes/Work/duploq/src/bin/duplo* -> duplo -> /usr/bin
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>

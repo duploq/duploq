@@ -11,14 +11,17 @@
       Qt-based GUI frontend for Duplo, application for finding duplicates in source code.
     </p>
   </description>
-  <url type="homepage">https://github.com/ArsMasiuk/duploq</url>
-  <url type="donation">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z35EHHJ3729GG&source=url</url>
+  <url type="homepage">https://github.com/duploq-app/duploq</url>
+  <!--
+<url type="donation">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z35EHHJ3729GG&source=url</url>
   <screenshots>
     <screenshot type="default">
       <image>https://user-images.githubusercontent.com/19762856/85934275-2a985480-b8e1-11ea-81a9-a5b81f3365e2.PNG</image>
       <caption>Screenshot of the main window</caption>
     </screenshot>
   </screenshots>
-  <updatecontact>https://github.com/ArsMasiuk/duploq/issues</updatecontact>
+-->
+
+  <updatecontact>https://github.com/duploq-app/duploq/issues</updatecontact>
   <translation type="qt">duploq</translation>
 </component>
