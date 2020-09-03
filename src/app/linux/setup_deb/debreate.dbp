@@ -4,8 +4,8 @@ Package: duploq
 Version: 0.1
 Maintainer: Ars Masiuk <ars.masiuk@gmail.com>
 Section: devel
-Source: https://github.com/duploq-app/duploq
-Homepage: https://github.com/duploq-app/duploq
+Source: https://github.com/duploq/duploq
+Homepage: https://github.com/duploq/duploq
 Architecture: amd64
 Priority: standard
 Depends: libqt5widgets5 (>=5.9.0)
@@ -17,9 +17,9 @@ Description: Duplo GUI Frontend
 <</CTRL>>
 <<FILES>>
 1
-/home/osboxes/Work/duploq/src/app/linux/duploq.png -> duploq.png -> /usr/share/duploq
-/home/osboxes/Work/duploq/src/bin/duploq* -> duploq -> /usr/bin
 /home/osboxes/Work/duploq/src/bin/duplo* -> duplo -> /usr/bin
+/home/osboxes/Work/duploq/src/bin/duploq* -> duploq -> /usr/bin
+/home/osboxes/Work/duploq/src/app/linux/duploq.png -> duploq.png -> /usr/share/duploq
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>
@@ -45,27 +45,9 @@ Description: Duplo GUI Frontend
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
-The MIT-X (MIT/X11) License
-
 Copyright © 2020 Ars L. Masiuk [ars.masiuk@gmail.com]
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+/usr/share/common-licenses/GPL-3
 <</COPYRIGHT>>
 <<MENU>>
 1

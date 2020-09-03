@@ -2,8 +2,8 @@
 <!-- Copyright 2020 Ars L. Masiuk <ars.masiuk@gmail.com> -->
 <component type="desktop">
   <id>duploq.desktop</id>
-  <metadata_license>MIT</metadata_license>
-  <project_license>MIT</project_license>
+  <metadata_license>GPL-3.0+</metadata_license>
+  <project_license>GPL-3.0+</project_license>
   <name>DuploQ</name>
   <summary>GUI frontend for Duplo copy-paste finder.</summary>
   <description>
@@ -11,7 +11,8 @@
       Qt-based GUI frontend for Duplo, application for finding duplicates in source code.
     </p>
   </description>
-  <url type="homepage">https://github.com/duploq-app/duploq</url>
+  <url type="homepage">https://github.com/duploq/duploq</url>
+
   <!--
 <url type="donation">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z35EHHJ3729GG&source=url</url>
   <screenshots>
@@ -22,6 +23,6 @@
   </screenshots>
 -->
 
-  <updatecontact>https://github.com/duploq-app/duploq/issues</updatecontact>
+  <update_contact>ars_masiuk_at_gmail.com</update_contact>
   <translation type="qt">duploq</translation>
 </component>
