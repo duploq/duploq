@@ -4,7 +4,7 @@
 #define MyAppName "DuploQ"
 #define MyAppVersion "0.1 (64 bit)"
 #define MyAppPublisher "Ars L. Masiuk"
-#define MyAppURL "https://github.com/ArsMasiuk/duploq"
+#define MyAppURL "https://github.com/duploq"
 #define MyAppExeName "duploq.exe"
 
 #define EngineAppName "Duplo"
@@ -27,7 +27,7 @@ DefaultDirName={pf}\DuploQ
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 LicenseFile=..\..\..\..\LICENSE
-OutputDir=..\..\..\..\releases\win32
+OutputDir=releases\win32
 OutputBaseFilename=duploq-0.1-setup-64bit
 SetupIconFile=..\..\Icons\MainIcon.ico
 Compression=lzma
