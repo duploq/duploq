@@ -45,6 +45,8 @@ private:
 
     QList<CrossInfo> m_crosses;
 	const ResultInfo *m_results = nullptr;
+
+    QString m_filePath1, m_filePath2;
 };
 
 #endif // SIDEBYSIDEOUTPUT_H

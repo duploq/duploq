@@ -10,6 +10,7 @@
 #define EngineAppName "Duplo"
 #define EngineAppExeName "duplo.exe"
 
+
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
@@ -33,6 +34,9 @@ SetupIconFile=..\..\Icons\MainIcon.ico
 Compression=lzma
 SolidCompression=yes
 
+;SignTool=signtool sign /a /n $qDuploQ$q /t https://github.com/duploq /d $qDuploQ$q $f
+;SignedUninstaller=no
+
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"
@@ -44,7 +48,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "bin\*"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "bin\*"; DestDir: "{app}\bin"; Flags: ignoreversion recursesubdirs createallsubdirs 
+;Source: "bin\duploq.exe"; DestDir: "{app}\bin"; Flags: ignoreversion sign 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 ;Source: "vcredist_x64.exe"; DestDir: {tmp}; Flags: deleteafterinstall
 

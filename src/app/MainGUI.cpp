@@ -196,7 +196,7 @@ void MainGUI::on_actionOpenList_triggered()
     updateHeader();
 
     m_fileListPath = filePath;
-    m_fileResultPath = "output.xml";
+    createTempResultFile();
 
     m_fileList = m_inputProcessor->readFileList(m_fileListPath);
 
@@ -455,7 +455,7 @@ void MainGUI::onFilesChosen(const QString &filePath1, const QString &filePath2)
 
 void MainGUI::createTempFileList(const QStringList &filePathList)
 {
-    m_fileListPath = "input.txt";
+    m_fileListPath = QDir::tempPath() + "/duplo_input.txt";
 
     QFile fil(m_fileListPath);
     if (fil.open(QFile::WriteOnly | QIODevice::Truncate | QIODevice::Text))
@@ -471,7 +471,7 @@ void MainGUI::createTempFileList(const QStringList &filePathList)
 
 void MainGUI::createTempResultFile()
 {
-    m_fileResultPath = "output.xml";
+    m_fileResultPath = QDir::tempPath() + "/duplo_output.xml";
 }
 
 

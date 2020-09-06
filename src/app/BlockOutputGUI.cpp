@@ -141,13 +141,13 @@ void BlockOutputGUI::setResults(const ResultInfo &results)
 }
 
 
-void BlockOutputGUI::storeConfig(QSettings &set)
+void BlockOutputGUI::storeConfig(QSettings &/*set*/)
 {
 
 }
 
 
-void BlockOutputGUI::restoreConfig(QSettings &set)
+void BlockOutputGUI::restoreConfig(QSettings &/*set*/)
 {
 
 }

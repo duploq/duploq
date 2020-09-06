@@ -5,13 +5,23 @@
 #include <QString>
 #include <QList>
 #include <QSet>
+#include <QPair>
 #include <QDomDocument>
 
 
 struct ChunkInfo
 {
+    static int findLast(const QSet<QPair<int,int>>& set, int first)
+    {
+        for (const auto& pos: set)
+            if (pos.first == first)
+                return pos.second;
+
+        return -1;
+    }
+
     int lineCount = 0;
-    QMap<QString, QSet<int>> locations;    // <file:<start>>
+    QMap<QString, QSet<QPair<int,int>>> locations;    // <file:<start,end>>
     QStringList content;
 };
 

@@ -137,7 +137,7 @@ void FileBlockViewGUI::showBlock(int index)
 
     ui->ChunkLabel->setText(tr("%1 of %2").arg(index + 1).arg(m_starts.count()));
 
-    int line = m_starts[index];
+    int line = m_starts[index].first;
     ui->LineNumber->setNum(line);
 
     ui->LineNumber->show();
@@ -145,7 +145,9 @@ void FileBlockViewGUI::showBlock(int index)
     ui->NextChunk->show();
     ui->ChunkLabel->show();
 
-    setupBlock(ui->View, line-1, m_linesCount);
+    int last = m_starts[index].second;
+
+    setupBlock(ui->View, line-1, /*m_linesCount*/last-line+1);
 }
 
 
@@ -204,17 +206,18 @@ void FileBlockViewGUI::setupBlock(QPlainTextEdit *view, int line, int size)
         selection.cursor.movePosition(QTextCursor::Start);
         selection.cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, line);	// move to start line
 
-        selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);		// select 1st line - is always ok
-        for (int i = 1; i < size; ++i)
-        {
-            QString textLine = selection.cursor.block().text().trimmed();
-            if (textLine.size() <= 1)
-                --i;
+//        selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);		// select 1st line - is always ok
+//        for (int i = 1; i < size; ++i)
+//        {
+//            QString textLine = selection.cursor.block().text().trimmed();
+//            if (textLine.size() <= 1)
+//                --i;
 
-            selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);
-        }
+//            selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);
+//        }
 
-        //selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, size);	// select lines
+        selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, size-1);	// select lines
+
         selection.format.setBackground(QColor("#e6f3ff"));
         selection.cursor.mergeCharFormat(selection.format);
         view->setExtraSelections({ selection });

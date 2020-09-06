@@ -47,6 +47,8 @@ bool ResultProcessor::process(const QDomDocument &input, ResultInfo &output)
         QString path2 = file2.attribute("SourceFile");
         int start1 = file1.attribute("StartLineNumber").toInt();
         int start2 = file2.attribute("StartLineNumber").toInt();
+        int end1 = file1.attribute("EndLineNumber").toInt();
+        int end2 = file2.attribute("EndLineNumber").toInt();
 
         // look for existing chunks
         int chunkIndex = output.findChunk(path1, start1, lineCount);
@@ -61,8 +63,8 @@ bool ResultProcessor::process(const QDomDocument &input, ResultInfo &output)
             chunk.lineCount = lineCount;
 
             // location
-            chunk.locations[path1].insert(start1);
-            chunk.locations[path2].insert(start2);
+            chunk.locations[path1].insert({start1,end1});
+            chunk.locations[path2].insert({start2,end2});
 
             // content
             auto lines = set.firstChildElement("lines");
@@ -81,8 +83,8 @@ bool ResultProcessor::process(const QDomDocument &input, ResultInfo &output)
             ChunkInfo &chunk = output.chunks[chunkIndex];
 
             // update location
-            chunk.locations[path1].insert(start1);
-            chunk.locations[path2].insert(start2);
+            chunk.locations[path1].insert({start1,end1});
+            chunk.locations[path2].insert({start2,end2});
         }
 
         // crosses
@@ -102,8 +104,13 @@ int ResultInfo::findChunk(const QString &path, int start, int lineCount) const
         const auto& chunkInfo = chunks.at(i);
         if (chunkInfo.lineCount == lineCount && chunkInfo.locations.contains(path))
         {
-            if (chunkInfo.locations[path].contains(start))
-                return i;
+            const auto& positions = chunkInfo.locations[path];
+            for (auto& pos: positions)
+                if (pos.first == start)
+                    return i;
+
+//            if (chunkInfo.locations[path].contains(start))
+//                return i;
         }
     }
 

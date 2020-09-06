@@ -134,6 +134,8 @@ void SideBySideOutputGUI::setContentFrom(const QString &filePath1, const QString
 
 			ui->View2->show();
 
+            m_filePath1 = filePath1;
+            m_filePath2 = filePath2;
             showCross(0);
 
             return;
@@ -162,10 +164,18 @@ void SideBySideOutputGUI::showCross(int index)
     ui->LineNumber1->setNum(line1);
     ui->LineNumber2->setNum(line2);
 
-    int lineCount = m_results->chunks[ m_crosses[index].chunkIndex ].lineCount;
+    const auto& chunk = m_results->chunks[ m_crosses[index].chunkIndex ];
+    int lineCount1 = chunk.lineCount;
+    int lineCount2 = chunk.lineCount;
+    int last1 = ChunkInfo::findLast(chunk.locations[m_filePath1],line1);
+    int last2 = ChunkInfo::findLast(chunk.locations[m_filePath2],line2);
+    if (last1 >= 0)
+        lineCount1 = last1-line1;
+    if (last2 >= 0)
+        lineCount2 = last2-line2;
 
-    setupBlock(ui->View1, line1-1, lineCount);
-    setupBlock(ui->View2, line2-1, lineCount);
+    setupBlock(ui->View1, line1-1, lineCount1);
+    setupBlock(ui->View2, line2-1, lineCount2);
 
     Q_EMIT blockShown(m_crosses[index].chunkIndex);
 }
@@ -225,17 +235,18 @@ void SideBySideOutputGUI::setupBlock(QPlainTextEdit *view, int line, int size)
         selection.cursor.movePosition(QTextCursor::Start);
         selection.cursor.movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, line);	// move to start line
 
-        selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);		// select 1st line - is always ok
-        for (int i = 1; i < size; ++i)
-        {
-            QString textLine = selection.cursor.block().text().trimmed();
-            if (textLine.size() <= 1)
-                --i;
+//        selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);		// select 1st line - is always ok
+//        for (int i = 1; i < size; ++i)
+//        {
+//            QString textLine = selection.cursor.block().text().trimmed();
+//            if (textLine.size() <= 1)
+//                --i;
 
-            selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);
-        }
+//            selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, 1);
+//        }
 
-        //selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, size);	// select lines
+        selection.cursor.movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, size-1);	// select lines
+
         selection.format.setBackground(QColor("#e6f3ff"));
         selection.cursor.mergeCharFormat(selection.format);
         view->setExtraSelections({ selection });

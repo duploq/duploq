@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QString>
 #include <QList>
+#include <QPair>
 
 class QPlainTextEdit;
 
@@ -42,7 +43,7 @@ private:
     int m_chunkIndex = 0;
     int m_startIndex = 0;
     int m_linesCount = 0;
-    QList<int> m_starts;
+    QList<QPair<int,int>> m_starts;     // <start,end>
 };
 
 #endif // FILEBLOCKVIEWGUI_H
