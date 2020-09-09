@@ -20,6 +20,14 @@ DuploQ could be either compiled & installed from sources or by installer program
 
 The latest binaries can be downloaded from [releases page](https://github.com/duploq/duploq/releases).
 
+To install DuploQ from sources:
+1. Make sure that you have _Qt framework_ and _C++ compiler_ installed on your system.
+2. Download and extract source code package in a directory where it has to be built (let's name it SOURCE_DIR).
+3. Go into SOURCE_DIR/src directory and run _qmake -r_.
+4. Run _make_ (if under Linux) or _nmake_ (if using MSVC under Windows) or _mingw32-make_ (if using MinGW under Windows) etc.
+
+After the DuploQ has been built, you can install it running _sudo make install_ (under Linux).
+
 ## Workflow
 DuploQ's approach is a pretty straighforward.
 
