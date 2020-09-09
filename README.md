@@ -1,14 +1,32 @@
-# DuploQ
+# DuploQ - GUI for finding duplicates in source files
 DuploQ is a GUI frontend for [Duplo](https://github.com/dlidstrom/Duplo) duplicate finder console tool.
 Its goal is to find duplicates (i.e. copy-pasted parts of code) across several source files.
 
+Locating and eliminating source code duplicates is an important part of the overall refactoring process which leads to decreasing
+a project's technical dept and increasing stability of the software.
+
 ![duploq-0 1-linux-1](https://user-images.githubusercontent.com/70297699/91775216-d4020c00-ebea-11ea-9b18-ceeb7e05cc2b.PNG)
 
+## Supported languages
 Currently DuploQ directly supports C, C++, C#, Java and JavaScript languages, but it can be used for other languages as well.
 
+## Supported platforms
+Currently, Microsoft Windows and Linux platforms are supported.
+
+Since DuploQ is based on Qt C++ framework, it can easily be ported across several platforms.
+
+## Installation
+DuploQ could be either compiled & installed from sources or by installer program (Windows) or package manager (Linux).
+
+The latest binaries can be downloaded from [releases page](https://github.com/duploq/duploq/releases).
+
+## Workflow
 DuploQ's approach is a pretty straighforward.
+
 First, DuploQ allows you to choose where to look for the duplicates (files or folders).
+
 Then it builds list of input files and passes it to the Duplo engine together with necessary parameters.
+
 After the files have been processed, DuploQ parses Duplo's output and visualises the results in easy and intuitive way.
 Also it provides additional statistics information which is not a part of Duplo output.
 
@@ -24,4 +42,3 @@ The duplicated blocks are visually highlighted so you can easily see what exactl
 Block-based output shows you all the found duplicated blocks in a hierarchical structure.
 It allows you to see which parts of code are repeated at most.
 
-DuploQ is based on Qt C++ framework so it can easily be ported across several platforms.
