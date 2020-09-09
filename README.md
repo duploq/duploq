@@ -1,4 +1,7 @@
 # DuploQ - GUI for finding duplicates in source files
+
+[![Download DuploQ](https://img.shields.io/sourceforge/dt/duploq.svg)](https://sourceforge.net/projects/duploq/files/latest/download)
+
 DuploQ is a GUI frontend for [Duplo](https://github.com/dlidstrom/Duplo) duplicate finder console tool.
 Its goal is to find duplicates (i.e. copy-pasted parts of code) across several source files.
 
@@ -18,8 +21,10 @@ Since DuploQ is based on Qt C++ framework, it can easily be ported across severa
 ## Installation
 DuploQ could be either compiled & installed from sources or by installer program (Windows) or package manager (Linux).
 
+### Binaries
 The latest binaries can be downloaded from [releases page](https://github.com/duploq/duploq/releases).
 
+### Sources
 To install DuploQ from sources:
 1. Make sure that you have _Qt framework_ and _C++ compiler_ installed on your system.
 2. Download and extract source code package in a directory where it has to be built (let's name it SOURCE_DIR).
@@ -40,13 +45,13 @@ Also it provides additional statistics information which is not a part of Duplo 
 
 DuploQ shares the results across several views: file-based statistics, side-by-side view, block-based view, raw engine output.
 
-File-based view displays a list of files which contain duplicated blocks, their amount and size (duplicated lines of code).
+**File-based view** displays a list of files which contain duplicated blocks, their amount and size (duplicated lines of code).
 The results are sorted to let you immediately see which files include the longest duplicated blocks.
 For every file, internal (i.e. inside the same file) and external duplicates (i.e. across more files) are represented.
 
-Side-by-side view allows to navigate through the files containing duplicates to see them more in detail. 
+**Side-by-side view** allows to navigate through the files containing duplicates to see them more in detail. 
 The duplicated blocks are visually highlighted so you can easily see what exactly has been copy-pasted.
 
-Block-based output shows you all the found duplicated blocks in a hierarchical structure.
+**Block-based output** shows you all the found duplicated blocks in a hierarchical structure.
 It allows you to see which parts of code are repeated at most.
 
