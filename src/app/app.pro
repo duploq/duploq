@@ -103,7 +103,7 @@ BUILD_DUPLO{
     desktop.files = $$PWD/linux/duploq.desktop
     INSTALLS += desktop
 
-    icon.path = $PREFIX_DIR/share/pixmaps
+    icon.path = $$PREFIX_DIR/share/pixmaps
     icon.files = $$PWD/linux/duploq.png
     INSTALLS += icon
 
