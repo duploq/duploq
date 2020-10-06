@@ -2,6 +2,8 @@
 
 [![Download DuploQ](https://img.shields.io/sourceforge/dt/duploq.svg)](https://sourceforge.net/projects/duploq/files/latest/download)
 
+[![Download DuploQ](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/duploq/files/latest/download)
+
 DuploQ is a GUI frontend for [Duplo](https://github.com/dlidstrom/Duplo) duplicate finder console tool.
 Its goal is to find duplicates (i.e. copy-pasted parts of code) across several source files.
 
@@ -54,4 +56,10 @@ The duplicated blocks are visually highlighted so you can easily see what exactl
 
 **Block-based output** shows you all the found duplicated blocks in a hierarchical structure.
 It allows you to see which parts of code are repeated at most.
+
+## Links
+
+DuploQ page on [Softpedia](https://www.softpedia.com/get/Programming/Other-Programming-Files/DuploQ.shtml)
+
+DuploQ mirror on [![Download DuploQ](https://sourceforge.net/sflogo.php?type=14&group_id=3265441)](https://sourceforge.net/p/duploq/)
 
